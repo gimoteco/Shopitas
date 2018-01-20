@@ -12,5 +12,10 @@ namespace Shopitas.Domain
             Order = order;
             Product = product;
         }
+
+        public void Deliver(Customer customer)
+        {
+            Product.Deliver(customer);
+        }
     }
 }

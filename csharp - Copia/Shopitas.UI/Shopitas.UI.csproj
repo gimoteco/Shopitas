@@ -7,8 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Shopitas.Domain\Shopitas.Domain.csproj" />
-    <ProjectReference Include="..\Shopitas.Infrastructure\Shopitas.Infrastructure.csproj" />
+    <ProjectReference Include="..\Shopitas.Dominio\Shopitas.Domain.csproj" />
   </ItemGroup>
 
 </Project>

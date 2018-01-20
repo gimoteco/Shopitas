@@ -1,6 +1,6 @@
 namespace Shopitas.Domain
 {
-    public class Customer
+    public abstract class PaymentMethod
     {
     }
 }
