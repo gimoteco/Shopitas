@@ -6,9 +6,8 @@ namespace Shopitas.Domain
         {
         }
 
-        public override void Deliver(Customer customer)
+        public override void Deliver(Order order)
         {
-            throw new System.NotImplementedException();
         }
     }
 }

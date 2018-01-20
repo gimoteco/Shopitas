@@ -1,4 +1,6 @@
-﻿using Shopitas.Domain;
+﻿using NSubstitute;
+using Shopitas.Domain;
+using Shopitas.Domain.Base;
 using Xunit;
 
 namespace Shopitas.UnitTests.Domain
@@ -10,6 +12,7 @@ namespace Shopitas.UnitTests.Domain
 
         public CustomerMembershipTests()
         {
+            DomainEventNotifier.CurrentNotifier = Substitute.For<DomainEventNotifier>();
             _customer = new Customer("gimoteco@gmail.com");
             _membership = new Membership("Premium membership");
         }

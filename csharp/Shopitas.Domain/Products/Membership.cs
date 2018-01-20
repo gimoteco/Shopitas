@@ -8,8 +8,9 @@ namespace Shopitas.Domain
         {
         }
 
-        public override void Deliver(Customer customer)
+        public override void Deliver(Order order)
         {
+            var customer = order.Customer;
             customer.ActivateMembership(this);
         }
     }

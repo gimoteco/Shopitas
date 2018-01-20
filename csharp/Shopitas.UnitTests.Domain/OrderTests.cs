@@ -13,6 +13,7 @@ namespace Shopitas.UnitTests.Domain
         private readonly Address _address;
         private readonly Membership _membership;
         private readonly CreditCard _paymentMethod;
+        private readonly Product _physicalItem;
 
         public OrderTests()
         {
@@ -20,7 +21,8 @@ namespace Shopitas.UnitTests.Domain
             _customer = new Customer("gimoteco@gmail.com");
             _address = new Address("79042-656");
             _membership = new Membership("Premium service");
-            _paymentMethod = CreditCard.FetchByHashed("123");    
+            _paymentMethod = CreditCard.FetchByHashed("123");
+            _physicalItem = new PhysicalItem("broom");
         }
 
         [Fact]
@@ -31,8 +33,19 @@ namespace Shopitas.UnitTests.Domain
 
             order.Pay(_paymentMethod);
 
-            var customerMembership = order.Customer.Memberships.First();
+            var customerMembership = order.Customer.Memberships.First(customerMembership1 => customerMembership1.Membership == _membership);
             Assert.True(customerMembership.Activated);
+        }
+
+        [Fact]
+        public void A_order_with_physical_items_should_generate_a_print_label()
+        {
+            var order = new Order(_customer, _address);
+            order.AddProduct(_physicalItem);
+
+            order.Pay(_paymentMethod);
+            
+            Assert.NotNull(order.ShippingLabel);
         }
 
         [Fact]

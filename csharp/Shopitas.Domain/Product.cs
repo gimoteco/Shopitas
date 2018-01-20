@@ -9,6 +9,6 @@ namespace Shopitas.Domain
             Name = name;
         }
 
-        public abstract void Deliver(Customer customer);
+        public abstract void Deliver(Order order);
     }
 }

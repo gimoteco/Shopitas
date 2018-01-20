@@ -13,7 +13,8 @@ namespace Shopitas.Domain
         public DateTime? ClosedAt { get; private set; }
         public Payment Payment { get; private set; }
         public bool IsPaid => Payment != null;
-        
+        public ShippingLabel ShippingLabel { get; set; }
+
         public Order(Customer customer, Address address)
         {
             Customer = customer;
@@ -35,17 +36,25 @@ namespace Shopitas.Domain
         public void Pay(PaymentMethod paymentMethod)
         {
             var now = DateTime.Now;
+            RegisterPayment(paymentMethod, now);
+            DeliverItems();
+            Close(now);
+        }
+
+        private void RegisterPayment(PaymentMethod paymentMethod, DateTime now)
+        {
             var payment = new Payment(paymentMethod, now, this);
             Payment = payment;
-
-            DeliverItems();
-
-            Close(now);
         }
 
         private void DeliverItems()
         {
-            Items.ForEach(item => item.Deliver(Customer));
+            Items.ForEach(item => item.DeliverTo(Customer));
+        }
+
+        public void Ship()
+        {
+            ShippingLabel = new ShippingLabel();
         }
     }
 }
