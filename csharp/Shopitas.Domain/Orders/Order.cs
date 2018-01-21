@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Shopitas.Domain.Base;
 
 namespace Shopitas.Domain
 {
@@ -31,13 +32,13 @@ namespace Shopitas.Domain
         public void Close(DateTime closedAt)
         {
             ClosedAt = closedAt;
+            DeliverItems();
         }
 
         public void Pay(PaymentMethod paymentMethod)
         {
             var now = DateTime.Now;
             RegisterPayment(paymentMethod, now);
-            DeliverItems();
             Close(now);
         }
 
@@ -49,12 +50,12 @@ namespace Shopitas.Domain
 
         private void DeliverItems()
         {
-            Items.ForEach(item => item.DeliverTo(Customer));
+            Items.ForEach(item => item.Deliver());
         }
 
-        public void Ship()
+        public void GiveAVoucherOf(decimal value)
         {
-            ShippingLabel = new ShippingLabel();
+            Customer.GiveAVoucherOf(value);
         }
     }
 }

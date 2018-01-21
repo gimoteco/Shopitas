@@ -1,4 +1,6 @@
-﻿namespace Shopitas.Domain
+﻿using Shopitas.Domain.Base;
+
+namespace Shopitas.Domain
 {
     public class PhysicalItem: Product
     {
@@ -8,7 +10,9 @@
 
         public override void Deliver(Order order)
         {
-            order.Ship();
+            var shippingAddress = order.Payment.Invoice.ShippingAddress;
+            order.ShippingLabel = new ShippingLabel(shippingAddress);
+            DomainEventNotifier.CurrentNotifier.NotifyAbout(new PhysicalItemSold(shippingAddress));
         }
     }
 }

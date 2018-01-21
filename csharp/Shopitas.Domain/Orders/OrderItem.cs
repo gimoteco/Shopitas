@@ -2,7 +2,6 @@ namespace Shopitas.Domain
 {
     public class OrderItem
     {
-        // TODO: Hard coded magic number
         public decimal Total => 10;
         public Order Order { get; }
         public Product Product { get; }
@@ -13,7 +12,7 @@ namespace Shopitas.Domain
             Product = product;
         }
 
-        public void DeliverTo(Customer customer)
+        public void Deliver()
         {
             Product.Deliver(Order);
         }

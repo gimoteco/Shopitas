@@ -8,5 +8,10 @@ namespace Shopitas.Domain
         {
             Zipcode = zipcode;
         }
+
+        public override string ToString()
+        {
+            return $"Zipcode: {Zipcode}";
+        }
     }
 }

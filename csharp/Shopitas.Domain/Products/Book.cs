@@ -1,3 +1,5 @@
+using Shopitas.Domain.Base;
+
 namespace Shopitas.Domain
 {
     public class Book: Product
@@ -7,7 +9,10 @@ namespace Shopitas.Domain
         }
 
         public override void Deliver(Order order)
-        {   
+        {
+            const string taxInformation = "Item isento de impostos conforme disposto na Constituição Art. 150, VI, d.";
+            var shippingAddress = order.Payment.Invoice.ShippingAddress;
+            DomainEventNotifier.CurrentNotifier.NotifyAbout(new BookSold(shippingAddress, taxInformation));
         }
     }
 }

@@ -44,8 +44,9 @@ namespace Shopitas.UnitTests.Domain
             order.AddProduct(_physicalItem);
 
             order.Pay(_paymentMethod);
-            
+
             Assert.NotNull(order.ShippingLabel);
+            Assert.Equal(order.Payment.Invoice.ShippingAddress, order.ShippingLabel.Address);
         }
 
         [Fact]

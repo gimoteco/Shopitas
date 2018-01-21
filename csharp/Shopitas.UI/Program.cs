@@ -13,12 +13,16 @@ namespace Shopitas.UI
             DomainEventNotifier.CurrentNotifier = new FakeDomainEventNotifier();
             var foolano = new Customer("gimoteco@gmail.com");
             var book = new Book("Awesome book");
+            var broom = new PhysicalItem("Broom");
             var membership = new Membership("Premium account");
             var address = new Address("79042-656");
+            var digitalMedia = new DigitalMedia("AwesomeBook.epub");
 
             var order = new Order(foolano, address);
             order.AddProduct(book);
+            order.AddProduct(broom);
             order.AddProduct(membership);
+            order.AddProduct(digitalMedia);
             var fetchByHashed = CreditCard.FetchByHashed("43567890-987654367");
             order.Pay(fetchByHashed);
 
