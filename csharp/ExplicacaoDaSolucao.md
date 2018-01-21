@@ -14,7 +14,7 @@ Desenvolvi uma aplicação usando algumas práticas de *Domain Driven Design (DD
 
 O projeto foi separado uma miniarquitetura em camadas (faltou a camada de aplicação), deixando para o projeto de infraestrutura apenas as responsabilidades relativas a implementações de baixo nível (Princípio de inversão de controle, eg. enviar e-mails e imprimir etiquetas de envio). Nesta arquitetura o projeto de dominio representa as regras do negócio.
     
-Basicamente usei *Order* como raiz de agregação (ponto de entrada para fazer uma compra) e encapsulei as regras específicas de envio de cada produto com classes que herdam de *PostPaymentActions, usando um dicionário (hashmap) para escolher em tempo de execução qual classe deve ser utilizada dependendo do tipo do produto.
+Basicamente usei *Order* como raiz de agregação (ponto de entrada para fazer uma compra) e encapsulei as regras específicas de envio de cada produto com classes que herdam de *PostPaymentActions*, usando um dicionário (hashmap) para escolher em tempo de execução qual classe deve ser utilizada dependendo do tipo do produto.
 
 Para um melhor entendimento basta visualizar os testes do projeto.
 
