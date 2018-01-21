@@ -4,17 +4,19 @@ using Shopitas.Domain.Products;
 
 namespace Shopitas.Domain.Customers
 {
-    public class Customer: Entity
+    public class Customer : Entity
     {
-        public string Mail { get; }
-        public IList<CustomerMembership> Memberships { get; }
-
         public Customer(string mail)
         {
             Mail = mail;
             Memberships = new List<CustomerMembership>();
             Vouchers = new List<Voucher>();
         }
+
+        public string Mail { get; }
+        public IList<CustomerMembership> Memberships { get; }
+
+        public IList<Voucher> Vouchers { get; set; }
 
         public void ActivateMembership(Membership membership)
         {
@@ -29,7 +31,5 @@ namespace Shopitas.Domain.Customers
         {
             Vouchers.Add(new Voucher(value));
         }
-
-        public IList<Voucher> Vouchers { get; set; }
     }
 }

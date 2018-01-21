@@ -15,7 +15,7 @@ namespace Shopitas.Domain.Products
         public void Handle(DigitalMediaSold domainEvent)
         {
             var customer = domainEvent.Customer;
-            var message = $"You purchased a ${domainEvent.Product.Name}";
+            var message = $"You purchased a {domainEvent.Product.Name}";
             _mailSender.Send(customer.Mail, message);
         }
     }

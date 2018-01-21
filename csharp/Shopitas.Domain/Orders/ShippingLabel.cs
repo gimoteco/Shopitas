@@ -3,11 +3,8 @@ using Shopitas.Domain.Customers;
 
 namespace Shopitas.Domain.Orders
 {
-    public class ShippingLabel: ValueObject
+    public class ShippingLabel : ValueObject
     {
-        public Address Address { get; }
-        public string TaxInformation { get; }
-
         public ShippingLabel(string taxInformation, Address address)
         {
             TaxInformation = taxInformation;
@@ -18,6 +15,9 @@ namespace Shopitas.Domain.Orders
         {
             Address = address;
         }
+
+        public Address Address { get; }
+        public string TaxInformation { get; }
 
         protected override string EqualityExpressionText => $"{Address},{TaxInformation}";
     }

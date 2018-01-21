@@ -8,8 +8,15 @@ using Shopitas.Domain.Products;
 
 namespace Shopitas.Domain.Orders
 {
-    public class Order: Entity
+    public class Order : Entity
     {
+        public Order(Customer customer, Address address)
+        {
+            Customer = customer;
+            Items = new List<OrderItem>();
+            Address = address;
+        }
+
         public Customer Customer { get; }
         public decimal TotalAmount => Items.Sum(item => item.Total);
         public Address Address { get; }
@@ -18,13 +25,6 @@ namespace Shopitas.Domain.Orders
         public Payment Payment { get; private set; }
         public bool IsPaid => Payment != null;
         public ShippingLabel ShippingLabel { get; set; }
-
-        public Order(Customer customer, Address address)
-        {
-            Customer = customer;
-            Items = new List<OrderItem>();
-            Address = address;
-        }
 
         public void AddProduct(Product product)
         {

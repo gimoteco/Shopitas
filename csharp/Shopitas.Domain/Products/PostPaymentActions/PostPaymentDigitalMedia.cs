@@ -3,7 +3,7 @@ using Shopitas.Domain.Orders;
 
 namespace Shopitas.Domain.Products.PostPaymentActions
 {
-    public class PostPaymentDigitalMedia: PostPaymentAction
+    public class PostPaymentDigitalMedia : PostPaymentAction
     {
         public override void Do(Product product, Order order)
         {

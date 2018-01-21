@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using NSubstitute;
-using Shopitas.Domain;
 using Shopitas.Domain.Base;
 using Shopitas.Domain.Customers;
 using Shopitas.Domain.Orders;
@@ -13,15 +12,6 @@ namespace Shopitas.UnitTests.Domain
 {
     public class OrderTests
     {
-        private readonly Customer _customer;
-        private readonly Address _address;
-        private readonly Membership _membership;
-        private readonly CreditCard _paymentMethod;
-        private readonly Product _physicalItem;
-        private readonly Book _book;
-        private readonly Product _digitalMedia;
-        private readonly DomainEventNotifier _domainEventNotifier;
-
         public OrderTests()
         {
             _domainEventNotifier = Substitute.For<DomainEventNotifier>();
@@ -35,28 +25,29 @@ namespace Shopitas.UnitTests.Domain
             _physicalItem = new PhysicalItem("broom");
         }
 
+        private readonly Customer _customer;
+        private readonly Address _address;
+        private readonly Membership _membership;
+        private readonly CreditCard _paymentMethod;
+        private readonly Product _physicalItem;
+        private readonly Book _book;
+        private readonly Product _digitalMedia;
+        private readonly DomainEventNotifier _domainEventNotifier;
+
+
         [Fact]
-        public void A_membership_order_payment_should_activate_the_membership()
+        public void A_book_sold_should_generate_the_shipping_label_with_tax_information()
         {
             var order = new Order(_customer, _address);
-            order.AddProduct(_membership);
+            order.AddProduct(_book);
+            const string expectedTaxInfo = "Item isento de impostos conforme disposto na Constituição Art. 150, VI, d.";
 
             order.Pay(_paymentMethod);
 
-            var customerMembership = order.Customer.Memberships.First(customerMembership1 => customerMembership1.Membership == _membership);
-            Assert.True(customerMembership.Activated);
-        }
-
-        [Fact]
-        public void A_digital_media_sold_should_notify_the_customer()
-        {
-            var order = new Order(_customer, _address);
-            order.AddProduct(_digitalMedia);
-
-            order.Pay(_paymentMethod);
-
+            Assert.Equal(order.ShippingLabel,
+                new ShippingLabel(expectedTaxInfo, order.Payment.Invoice.ShippingAddress));
             _domainEventNotifier.Received(1)
-                .NotifyAbout(Arg.Is<DomainEvent>(@event => @event is DigitalMediaSold));
+                .NotifyAbout(Arg.Is<DomainEvent>(@event => @event is BookSold));
         }
 
         [Fact]
@@ -73,19 +64,29 @@ namespace Shopitas.UnitTests.Domain
             Assert.Equal(actualVoucher.Value, expectVoucherValue);
         }
 
-
         [Fact]
-        public void A_book_sold_should_generate_the_shipping_label_with_tax_information()
+        public void A_digital_media_sold_should_notify_the_customer()
         {
             var order = new Order(_customer, _address);
-            order.AddProduct(_book);
-            const string expectedTaxInfo = "Item isento de impostos conforme disposto na Constituição Art. 150, VI, d.";
+            order.AddProduct(_digitalMedia);
 
             order.Pay(_paymentMethod);
 
-            Assert.Equal(order.ShippingLabel, new ShippingLabel(expectedTaxInfo, order.Payment.Invoice.ShippingAddress));
             _domainEventNotifier.Received(1)
-                .NotifyAbout(Arg.Is<DomainEvent>(@event => @event is BookSold));
+                .NotifyAbout(Arg.Is<DomainEvent>(@event => @event is DigitalMediaSold));
+        }
+
+        [Fact]
+        public void A_membership_order_payment_should_activate_the_membership()
+        {
+            var order = new Order(_customer, _address);
+            order.AddProduct(_membership);
+
+            order.Pay(_paymentMethod);
+
+            var customerMembership =
+                order.Customer.Memberships.First(customerMembership1 => customerMembership1.Membership == _membership);
+            Assert.True(customerMembership.Activated);
         }
 
         [Fact]
@@ -101,15 +102,14 @@ namespace Shopitas.UnitTests.Domain
         }
 
         [Fact]
-        public void Should_pay_an_order_and_register_the_date()
+        public void A_paid_order_should_register_payment_data()
         {
             var order = new Order(_customer, _address);
             order.AddProduct(_membership);
 
             order.Pay(_paymentMethod);
 
-            Assert.True(order.IsPaid);
-            DateTimeAssert.Equal(DateTime.Now, order.Payment.PaidAt, TimeSpan.FromSeconds(1));
+            Assert.NotNull(order.Payment);
         }
 
         [Fact]
@@ -119,19 +119,20 @@ namespace Shopitas.UnitTests.Domain
             order.AddProduct(_membership);
 
             order.Pay(_paymentMethod);
-            
+
             DateTimeAssert.Equal(DateTime.Now, order.ClosedAt.Value, TimeSpan.FromSeconds(1));
         }
 
         [Fact]
-        public void A_paid_order_should_register_payment_data()
+        public void Should_pay_an_order_and_register_the_date()
         {
             var order = new Order(_customer, _address);
             order.AddProduct(_membership);
 
             order.Pay(_paymentMethod);
 
-            Assert.NotNull(order.Payment);
+            Assert.True(order.IsPaid);
+            DateTimeAssert.Equal(DateTime.Now, order.Payment.PaidAt, TimeSpan.FromSeconds(1));
         }
     }
 }
