@@ -1,4 +1,4 @@
-﻿namespace Shopitas.Domain
+﻿namespace Shopitas.Domain.Services
 {
     public interface Printer
     {

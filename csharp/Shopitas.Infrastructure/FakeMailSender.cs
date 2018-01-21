@@ -1,9 +1,9 @@
 ﻿using System;
-using Shopitas.Domain;
+using Shopitas.Domain.Services;
 
 namespace Shopitas.Infrastructure
 {
-    public class FakeMailSender: MailSender
+    public class FakeMailSender : MailSender
     {
         public void Send(string mail, string message)
         {

@@ -1,14 +1,16 @@
-namespace Shopitas.Domain
+using Shopitas.Domain.Base;
+
+namespace Shopitas.Domain.Products
 {
-    public abstract class Product
+    public class Product: Entity
     {
         public string Name { get; }
+        public ProductType Type { get; }
 
-        protected Product(string name)
+        protected Product(string name, ProductType type)
         {
             Name = name;
+            Type = type;
         }
-
-        public abstract void Deliver(Order order);
     }
 }

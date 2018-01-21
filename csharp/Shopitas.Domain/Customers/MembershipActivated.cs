@@ -1,6 +1,6 @@
 using Shopitas.Domain.Base;
 
-namespace Shopitas.Domain
+namespace Shopitas.Domain.Customers
 {
     public class MembershipActivated: DomainEvent
     {

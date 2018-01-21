@@ -1,17 +1,28 @@
 ﻿using NSubstitute;
-using Shopitas.Domain;
 using Shopitas.Domain.Base;
+using Shopitas.Domain.Customers;
+using Shopitas.Domain.Products;
 using Xunit;
 
 namespace Shopitas.UnitTests.Domain
 {
     public class CustomerTests
     {
-        private const string Mail = "gimoteco@gmail.com";
-
         public CustomerTests()
         {
-            DomainEventNotifier.CurrentNotifier = Substitute.For<DomainEventNotifier>();
+            _domainEventNotifier = Substitute.For<DomainEventNotifier>();
+            DomainEventNotifier.CurrentNotifier = _domainEventNotifier;
+        }
+
+        private readonly DomainEventNotifier _domainEventNotifier;
+        private const string Mail = "gimoteco@gmail.com";
+
+        [Fact]
+        public void Customer_should_be_created_with_no_subscriptions()
+        {
+            var customer = new Customer(Mail);
+
+            Assert.Equal(0, customer.Memberships.Count);
         }
 
         [Fact]
@@ -23,19 +34,11 @@ namespace Shopitas.UnitTests.Domain
         }
 
         [Fact]
-        public void Customer_should_be_created_with_no_subscriptions()
-        {
-            var customer = new Customer(Mail);
-
-            Assert.Equal(0, customer.Memberships.Count);
-        }
-
-        [Fact]
         public void Should_add_a_membership_to_a_customer()
         {
             var customer = new Customer(Mail);
             var membership = new Membership("Premium membership");
-            var expectedCustomerMemberships = new[] { new CustomerMembership(membership, customer) };
+            var expectedCustomerMemberships = new[] {new CustomerMembership(membership, customer)};
 
             customer.ActivateMembership(membership);
 
@@ -47,12 +50,11 @@ namespace Shopitas.UnitTests.Domain
         {
             var customer = new Customer(Mail);
             var membership = new Membership("Premium membership");
-            var domainEventNotifier = Substitute.For<DomainEventNotifier>();
-            DomainEventNotifier.CurrentNotifier = domainEventNotifier;
 
             customer.ActivateMembership(membership);
 
-            domainEventNotifier.Received(1).NotifyAbout(Arg.Is<DomainEvent>(@event => @event is MembershipActivated));
+            _domainEventNotifier
+                .Received().NotifyAbout(Arg.Is<DomainEvent>(@event => @event is MembershipActivated));
         }
     }
 }

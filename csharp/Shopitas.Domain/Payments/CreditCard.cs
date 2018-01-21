@@ -1,6 +1,6 @@
-namespace Shopitas.Domain
+namespace Shopitas.Domain.Payments
 {
-    public class CreditCard: PaymentMethod
+    public class CreditCard : PaymentMethod
     {
         public static CreditCard FetchByHashed(string code)
         {

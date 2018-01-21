@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using Shopitas.Domain;
 using Shopitas.Domain.Base;
+using Shopitas.Domain.Customers;
+using Shopitas.Domain.Products;
 
 namespace Shopitas.Infrastructure
 {
-    public class FakeDomainEventNotifier: DomainEventNotifier
+    public class FakeDomainEventNotifier : DomainEventNotifier
     {
         private readonly Dictionary<Type, object> _eventToHandlers = new Dictionary<Type, object>();
 

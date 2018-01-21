@@ -1,8 +1,9 @@
 ﻿using Shopitas.Domain.Base;
+using Shopitas.Domain.Services;
 
-namespace Shopitas.Domain
+namespace Shopitas.Domain.Customers
 {
-    public class NotifyCustomerMembershipWasActivated: DomainEventHandler<MembershipActivated>
+    public class NotifyCustomerMembershipWasActivated : DomainEventHandler<MembershipActivated>
     {
         private readonly MailSender _mailSender;
 

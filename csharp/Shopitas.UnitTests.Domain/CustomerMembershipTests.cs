@@ -1,21 +1,22 @@
 ﻿using NSubstitute;
-using Shopitas.Domain;
 using Shopitas.Domain.Base;
+using Shopitas.Domain.Customers;
+using Shopitas.Domain.Products;
 using Xunit;
 
 namespace Shopitas.UnitTests.Domain
 {
     public class CustomerMembershipTests
     {
-        private readonly Customer _customer;
-        private readonly Membership _membership;
-
         public CustomerMembershipTests()
         {
             DomainEventNotifier.CurrentNotifier = Substitute.For<DomainEventNotifier>();
             _customer = new Customer("gimoteco@gmail.com");
             _membership = new Membership("Premium membership");
         }
+
+        private readonly Customer _customer;
+        private readonly Membership _membership;
 
         [Fact]
         public void Membership_should_be_created_inactive()

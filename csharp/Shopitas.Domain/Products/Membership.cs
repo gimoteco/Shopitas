@@ -1,17 +1,9 @@
-using System;
-
-namespace Shopitas.Domain
+﻿namespace Shopitas.Domain.Products
 {
-    public class Membership: Product
+    public class Membership : Product
     {
-        public Membership(string name) : base(name)
+        public Membership(string name) : base(name, ProductType.Membership)
         {
-        }
-
-        public override void Deliver(Order order)
-        {
-            var customer = order.Customer;
-            customer.ActivateMembership(this);
         }
     }
 }

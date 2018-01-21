@@ -1,4 +1,5 @@
-﻿using Shopitas.Domain;
+﻿using Shopitas.Domain.Customers;
+using Shopitas.Domain.Orders;
 
 namespace Shopitas.UnitTests.Domain
 {

@@ -1,6 +1,8 @@
-namespace Shopitas.Domain
+using Shopitas.Domain.Base;
+
+namespace Shopitas.Domain.Customers
 {
-    public class Voucher
+    public class Voucher: Entity
     {
         public bool Used { get; }
         public decimal Value { get; }

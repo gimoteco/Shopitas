@@ -1,18 +1,9 @@
-﻿using Shopitas.Domain.Base;
-
-namespace Shopitas.Domain
+﻿namespace Shopitas.Domain.Products
 {
     public class PhysicalItem: Product
     {
-        public PhysicalItem(string name) : base(name)
+        public PhysicalItem(string name) : base(name, ProductType.PhysicalItem)
         {
-        }
-
-        public override void Deliver(Order order)
-        {
-            var shippingAddress = order.Payment.Invoice.ShippingAddress;
-            order.ShippingLabel = new ShippingLabel(shippingAddress);
-            DomainEventNotifier.CurrentNotifier.NotifyAbout(new PhysicalItemSold(shippingAddress));
         }
     }
 }

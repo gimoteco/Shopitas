@@ -3,6 +3,10 @@ using System.Linq;
 using NSubstitute;
 using Shopitas.Domain;
 using Shopitas.Domain.Base;
+using Shopitas.Domain.Customers;
+using Shopitas.Domain.Orders;
+using Shopitas.Domain.Payments;
+using Shopitas.Domain.Products;
 using Xunit;
 
 namespace Shopitas.UnitTests.Domain
@@ -14,10 +18,16 @@ namespace Shopitas.UnitTests.Domain
         private readonly Membership _membership;
         private readonly CreditCard _paymentMethod;
         private readonly Product _physicalItem;
+        private readonly Book _book;
+        private readonly Product _digitalMedia;
+        private readonly DomainEventNotifier _domainEventNotifier;
 
         public OrderTests()
         {
-            DomainEventNotifier.CurrentNotifier = Substitute.For<DomainEventNotifier>();
+            _domainEventNotifier = Substitute.For<DomainEventNotifier>();
+            DomainEventNotifier.CurrentNotifier = _domainEventNotifier;
+            _digitalMedia = new DigitalMedia("despacito.mp3");
+            _book = new Book("Sapiens");
             _customer = new Customer("gimoteco@gmail.com");
             _address = new Address("79042-656");
             _membership = new Membership("Premium service");
@@ -35,6 +45,47 @@ namespace Shopitas.UnitTests.Domain
 
             var customerMembership = order.Customer.Memberships.First(customerMembership1 => customerMembership1.Membership == _membership);
             Assert.True(customerMembership.Activated);
+        }
+
+        [Fact]
+        public void A_digital_media_sold_should_notify_the_customer()
+        {
+            var order = new Order(_customer, _address);
+            order.AddProduct(_digitalMedia);
+
+            order.Pay(_paymentMethod);
+
+            _domainEventNotifier.Received(1)
+                .NotifyAbout(Arg.Is<DomainEvent>(@event => @event is DigitalMediaSold));
+        }
+
+        [Fact]
+        public void A_digital_media_sold_should_give_a_10_usd_voucher()
+        {
+            var order = new Order(_customer, _address);
+            order.AddProduct(_digitalMedia);
+            const int expectVoucherValue = 10;
+
+            order.Pay(_paymentMethod);
+
+            var actualVoucher = _customer.Vouchers.First();
+            Assert.Equal(_customer.Vouchers.Count, 1);
+            Assert.Equal(actualVoucher.Value, expectVoucherValue);
+        }
+
+
+        [Fact]
+        public void A_book_sold_should_generate_the_shipping_label_with_tax_information()
+        {
+            var order = new Order(_customer, _address);
+            order.AddProduct(_book);
+            const string expectedTaxInfo = "Item isento de impostos conforme disposto na Constituição Art. 150, VI, d.";
+
+            order.Pay(_paymentMethod);
+
+            Assert.Equal(order.ShippingLabel, new ShippingLabel(expectedTaxInfo, order.Payment.Invoice.ShippingAddress));
+            _domainEventNotifier.Received(1)
+                .NotifyAbout(Arg.Is<DomainEvent>(@event => @event is BookSold));
         }
 
         [Fact]

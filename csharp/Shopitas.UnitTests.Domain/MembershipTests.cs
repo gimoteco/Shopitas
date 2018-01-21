@@ -1,5 +1,5 @@
-﻿using Xunit;
-using Shopitas.Domain;
+﻿using Shopitas.Domain.Products;
+using Xunit;
 
 namespace Shopitas.UnitTests.Domain
 {

@@ -2,10 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Shopitas.Domain.Base;
+using Shopitas.Domain.Customers;
+using Shopitas.Domain.Payments;
+using Shopitas.Domain.Products;
 
-namespace Shopitas.Domain
+namespace Shopitas.Domain.Orders
 {
-    public class Order
+    public class Order: Entity
     {
         public Customer Customer { get; }
         public decimal TotalAmount => Items.Sum(item => item.Total);
@@ -29,12 +32,6 @@ namespace Shopitas.Domain
             Items.Add(item);
         }
 
-        public void Close(DateTime closedAt)
-        {
-            ClosedAt = closedAt;
-            DeliverItems();
-        }
-
         public void Pay(PaymentMethod paymentMethod)
         {
             var now = DateTime.Now;
@@ -48,14 +45,15 @@ namespace Shopitas.Domain
             Payment = payment;
         }
 
-        private void DeliverItems()
+        public void Close(DateTime closedAt)
         {
-            Items.ForEach(item => item.Deliver());
+            ClosedAt = closedAt;
+            DeliverItems();
         }
 
-        public void GiveAVoucherOf(decimal value)
+        private void DeliverItems()
         {
-            Customer.GiveAVoucherOf(value);
+            Items.ForEach(item => item.ExecutePostPaymentAction());
         }
     }
 }

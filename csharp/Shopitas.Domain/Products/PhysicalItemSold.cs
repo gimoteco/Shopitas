@@ -1,14 +1,15 @@
 ﻿using Shopitas.Domain.Base;
+using Shopitas.Domain.Customers;
 
-namespace Shopitas.Domain
+namespace Shopitas.Domain.Products
 {
-    public class PhysicalItemSold: DomainEvent
+    public class PhysicalItemSold : DomainEvent
     {
-        public Address Address { get; }
-
         public PhysicalItemSold(Address address)
         {
             Address = address;
         }
+
+        public Address Address { get; }
     }
 }

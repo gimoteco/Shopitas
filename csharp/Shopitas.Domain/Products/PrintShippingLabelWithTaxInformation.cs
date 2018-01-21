@@ -1,6 +1,7 @@
 ﻿using Shopitas.Domain.Base;
+using Shopitas.Domain.Services;
 
-namespace Shopitas.Domain
+namespace Shopitas.Domain.Products
 {
     public class PrintShippingLabelWithTaxInformation : DomainEventHandler<BookSold>
     {

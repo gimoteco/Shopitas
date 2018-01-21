@@ -1,6 +1,7 @@
 using Shopitas.Domain.Base;
+using Shopitas.Domain.Products;
 
-namespace Shopitas.Domain
+namespace Shopitas.Domain.Customers
 {
     public class CustomerMembership: Entity
     {

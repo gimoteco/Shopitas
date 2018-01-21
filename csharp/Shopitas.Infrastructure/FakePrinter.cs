@@ -1,5 +1,5 @@
 ﻿using System;
-using Shopitas.Domain;
+using Shopitas.Domain.Services;
 
 namespace Shopitas.Infrastructure
 {

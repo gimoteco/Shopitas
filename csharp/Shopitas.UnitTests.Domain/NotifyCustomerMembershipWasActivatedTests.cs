@@ -1,5 +1,6 @@
 ﻿using NSubstitute;
-using Shopitas.Domain;
+using Shopitas.Domain.Customers;
+using Shopitas.Domain.Services;
 using Xunit;
 
 namespace Shopitas.UnitTests.Domain

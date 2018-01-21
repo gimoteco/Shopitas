@@ -1,6 +1,9 @@
-namespace Shopitas.Domain
+using Shopitas.Domain.Base;
+using Shopitas.Domain.Customers;
+
+namespace Shopitas.Domain.Orders
 {
-    public class ShippingLabel
+    public class ShippingLabel: ValueObject
     {
         public Address Address { get; }
         public string TaxInformation { get; }
@@ -15,5 +18,7 @@ namespace Shopitas.Domain
         {
             Address = address;
         }
+
+        protected override string EqualityExpressionText => $"{Address},{TaxInformation}";
     }
 }

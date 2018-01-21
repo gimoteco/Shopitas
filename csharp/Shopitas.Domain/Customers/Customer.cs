@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using Shopitas.Domain.Base;
+using Shopitas.Domain.Products;
 
-namespace Shopitas.Domain
+namespace Shopitas.Domain.Customers
 {
-    public class Customer
+    public class Customer: Entity
     {
         public string Mail { get; }
         public IList<CustomerMembership> Memberships { get; }

@@ -1,15 +1,10 @@
 ﻿using System;
+using Shopitas.Domain.Orders;
 
-namespace Shopitas.Domain
+namespace Shopitas.Domain.Payments
 {
     public class Payment
     {
-        public long AuthorizationNumber { get; }
-        public decimal Amount { get; }
-        public Invoice Invoice { get; set; }
-        public PaymentMethod PaymentMethod { get; }
-        public DateTime PaidAt { get; }
-
         public Payment(PaymentMethod paymentMethod, DateTime paidAt, Order order)
         {
             PaymentMethod = paymentMethod;
@@ -18,6 +13,12 @@ namespace Shopitas.Domain
             Amount = order.TotalAmount;
             GenerateInvoice(order);
         }
+
+        public long AuthorizationNumber { get; }
+        public decimal Amount { get; }
+        public Invoice Invoice { get; set; }
+        public PaymentMethod PaymentMethod { get; }
+        public DateTime PaidAt { get; }
 
         private void GenerateInvoice(Order order)
         {

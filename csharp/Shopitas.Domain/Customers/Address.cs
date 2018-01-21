@@ -1,6 +1,8 @@
-namespace Shopitas.Domain
+using Shopitas.Domain.Base;
+
+namespace Shopitas.Domain.Customers
 {
-    public class Address
+    public class Address: ValueObject
     {
         public string Zipcode { get; }
 
@@ -13,5 +15,7 @@ namespace Shopitas.Domain
         {
             return $"Zipcode: {Zipcode}";
         }
+
+        protected override string EqualityExpressionText => $"{Zipcode}";
     }
 }
