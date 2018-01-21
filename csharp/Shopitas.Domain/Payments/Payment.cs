@@ -1,9 +1,10 @@
 ﻿using System;
+using Shopitas.Domain.Base;
 using Shopitas.Domain.Orders;
 
 namespace Shopitas.Domain.Payments
 {
-    public class Payment
+    public class Payment: ValueObject
     {
         public Payment(PaymentMethod paymentMethod, DateTime paidAt, Order order)
         {
@@ -26,5 +27,8 @@ namespace Shopitas.Domain.Payments
             var shippingAddress = order.Address;
             Invoice = new Invoice(billingAddress, shippingAddress, order);
         }
+
+        protected override string EqualityExpressionText =>
+            $"{AuthorizationNumber},{Amount},{Invoice},{PaymentMethod},{PaidAt}";
     }
 }

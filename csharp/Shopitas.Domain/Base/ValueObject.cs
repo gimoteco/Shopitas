@@ -17,5 +17,10 @@ namespace Shopitas.Domain.Base
         {
             return EqualityExpressionText.GetHashCode();
         }
+
+        public override string ToString()
+        {
+            return EqualityExpressionText;
+        }
     }
 }
