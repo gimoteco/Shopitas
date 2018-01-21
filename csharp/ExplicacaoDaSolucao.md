@@ -2,7 +2,7 @@
 
 ## Como executar
 
-- Instalar o ![.NET Core SDK 2](https://www.microsoft.com/net/download)
+- Instalar o [.NET Core SDK 2](https://www.microsoft.com/net/download)
 - `cd csharp/Shopitas.UnitTests.Domain`
 - `dotnet test` Para executar os testes de unidade
 - `cd ../Shopitas.UI`
