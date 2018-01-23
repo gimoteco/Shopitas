@@ -1,7 +1,8 @@
 require 'test/unit'
-require_relative '../domain/customers'
-require_relative '../domain/orders'
-require_relative '../domain/products'
+require_relative '../domain/customer'
+require_relative '../domain/credit_card'
+require_relative '../domain/order'
+require_relative '../domain/product'
 
 class OrderTests <  Test::Unit::TestCase
     DATE_FORMAT = '%F %T'

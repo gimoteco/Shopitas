@@ -1,7 +1,10 @@
 require 'test/unit'
-require_relative '../domain/customers';
-require_relative '../domain/orders';
-require_relative '../domain/products';
+require_relative '../domain/customer'
+require_relative '../domain/payment'
+require_relative '../domain/credit_card'
+require_relative '../domain/order'
+require_relative '../domain/invoice'
+require_relative '../domain/product'
 
 class PaymentTests <  Test::Unit::TestCase
     def test_that_payment_should_generate_the_invoice_using_the_address_in_order

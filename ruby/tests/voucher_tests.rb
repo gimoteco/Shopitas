@@ -1,5 +1,5 @@
 require 'test/unit'
-require_relative '../domain/customers';
+require_relative '../domain/voucher';
 
 class VoucherTests <  Test::Unit::TestCase
     VALUE = 10

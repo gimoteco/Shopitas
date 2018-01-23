@@ -1,5 +1,6 @@
 require 'test/unit'
-require_relative '../domain/customers'
+require_relative '../domain/customer'
+require_relative '../domain/product'
 
 class CustomerTests <  Test::Unit::TestCase
     MAIL = 'gimoteco@gmail.com'
@@ -10,7 +11,16 @@ class CustomerTests <  Test::Unit::TestCase
         assert_true customer.memberships.empty?
     end
 
-    def test_should_activate_a_membership        
+    def test_should_add_a_membership
+        customer = Customer.new MAIL
+        membership = Product.new "Premium account", "membership"
+        
+        customer.add_a_membership(membership)
+
+        assert_equal 1, customer.memberships.length
+        assert_true customer.memberships[0].activated
+        assert_equal customer.memberships[0].product, membership
+
     end
 
     def test_customer_should_begin_with_no_vouchers
