@@ -1,13 +1,13 @@
 require 'test/unit'
-require_relative '../domain/customers';
-require_relative '../domain/orders';
-require_relative '../domain/products';
+require_relative '../domain/customers'
+require_relative '../domain/orders'
+require_relative '../domain/products'
 
 class OrderTests <  Test::Unit::TestCase
     DATE_FORMAT = '%F %T'
     
     def setup
-        @customer = Customer.new
+        @customer = Customer.new 'gimoteco@gmail.com'
         @payment_method = CreditCard.fetch_by_hashed '123'
         @product = Product.new("Harry Potter", "book")
     end
@@ -37,9 +37,9 @@ class OrderTests <  Test::Unit::TestCase
     def test_order_without_items_should_raise_exception
         order = Order.new(@customer)
 
-        assert_raise {
+        assert_raise_message 'No items ordered' do
             order.pay @payment_method
-        }  
+        end  
     end
 
     def test_should_register_the_payment
